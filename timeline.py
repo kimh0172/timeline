@@ -22,10 +22,10 @@ def wrap_label(text, max_characters=20):
     return wrapped_text
 
 # Streamlit App
-st.title('Time Series Chart: Energy Levels (Curve) with Highlighted Regions and Current Year Line')
+st.title('Sơ Đồ Năng Lượng Vận Trình Cuộc Đời')
 
 # Allow the user to specify how many data points to enter (up to 20)
-num_points = st.slider('Select the number of data points (max 20)', min_value=1, max_value=20, value=10)
+num_points = st.slider('Chọn số lượng cột mốc (max 20)', min_value=1, max_value=20, value=10)
 
 # Placeholder for data
 years = []
@@ -35,9 +35,9 @@ labels = []
 # Input fields for dynamic number of data points (based on user's choice)
 for i in range(1, num_points + 1):
     st.header(f'Data Point {i}')
-    year = st.number_input(f'Year {i}', step=1, value=2000 + i)  # Default to year 2000, 2001, etc.
-    energy = st.slider(f'Energy Level {i}', min_value=-10, max_value=10, value=0)
-    label = st.text_input(f'Label {i}', value=f'Label {i}')
+    year = st.number_input(f'Năm {i}', step=1, value=2000 + i)  # Default to year 2000, 2001, etc.
+    energy = st.slider(f'Mức năng lượng {i}', min_value=-10, max_value=10, value=0)
+    label = st.text_input(f'Sự kiện {i}', value=f'Label {i}')
     
     # Append inputs to lists
     years.append(year)
@@ -47,14 +47,14 @@ for i in range(1, num_points + 1):
     labels.append(wrap_label(label, max_characters=20))
 
 # Input for the current year to draw a vertical line
-current_year = st.number_input('Enter the current year', step=1, value=2024)
+current_year = st.number_input('Năm hiện tại', step=1, value=2024)
 
 # Calculate x-axis range with 10 years padding before and after
 x_min = min(years) - 10
 x_max = max(years) + 10
 
 # Plotly time series curve chart
-if st.button('Generate Time Series Chart'):
+if st.button('Vận trình năng lượng'):
     fig = go.Figure()
 
     # Add smooth curve plot with labels displayed on points
@@ -96,7 +96,7 @@ if st.button('Generate Time Series Chart'):
         line=dict(color="red", width=2),  # Red vertical line
     )
 
-    # Add annotation "You are here" at the top of the vertical line
+    # Add annotation "Bạn đang ở đây" at the top of the vertical line
     fig.add_annotation(
         x=current_year, 
         y=15,  # Place it at the top of the y-axis range
@@ -109,9 +109,9 @@ if st.button('Generate Time Series Chart'):
 
     # Set titles and labels
     fig.update_layout(
-        title='Energy Levels Over Time (Curve) with Highlighted Regions and Current Year Line',
-        xaxis_title='Year',
-        yaxis_title='Energy Level',
+        title='Sơ Đồ Năng Lượng Vận Trình Cuộc Đời',
+        xaxis_title='Năm',
+        yaxis_title='Mức năng lượng',
         xaxis=dict(range=[x_min, x_max]),  # Add 10 years before and after the data range
         yaxis=dict(range=[-15, 15]),  # Set y-axis range slightly larger than -10 to 10 to avoid cutting off points
     )
@@ -121,8 +121,8 @@ if st.button('Generate Time Series Chart'):
 
     # Show the data as a dataframe
     df = pd.DataFrame({
-        'Year': years,
-        'Energy Level': energy_levels,
-        'Label': [label.replace('<br>', ' ') for label in labels]  # Replace <br> with space for display
+        'Năm': years,
+        'Mức năng lượng': energy_levels,
+        'Sự kiện': [label.replace('<br>', ' ') for label in labels]  # Replace <br> with space for display
     })
     st.dataframe(df)
