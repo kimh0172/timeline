@@ -46,7 +46,7 @@ moon_phase_pattern = [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7,
                       6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8]
 
 # Extend the moon phase pattern for 60 years, starting from the given moon phase start
-years_to_extend = 60
+years_to_extend = 80
 extended_moon_phases = []
 
 # Cycle through the moon phase pattern for 60 years
@@ -78,7 +78,14 @@ for i in range(1, num_points + 1):
     truncated_labels.append(truncate_label(label, max_characters=20))  # Truncate for display on chart
 
 # Calculate sum of moon phase energy and user energy levels
-combined_energy = [extended_moon_phases[i] + energy_levels[i] if i < len(energy_levels) else extended_moon_phases[i] for i in range(min(len(years_moon), len(years)))]
+combined_energy = []
+for i in range(len(years)):
+    # Align the years between the moon phase and user input years
+    moon_index = years_moon.index(years[i]) if years[i] in years_moon else -1
+    if moon_index != -1:
+        combined_energy.append(extended_moon_phases[moon_index] + energy_levels[i])
+    else:
+        combined_energy.append(energy_levels[i])  # Default to user input energy if no moon phase found
 
 # Create tickvals and customize the ticktext for x-axis, highlighting user input years
 tickvals = years_moon
