@@ -23,7 +23,7 @@ def wrap_text_for_plotly(text, max_characters_per_line=10):
 
 # Custom HTML for styling
 st.markdown("""
-    <h1 style='font-size:40px; color:green;'>Vận trình Năng lượng</h1>
+    <h1 style='font-size:40px; color:green;'>Vận trình năng lượng</h1>
     <p style='font-size:20px; color:green;'>Copyright By Ocdaomayvacay.vn</p>
     """, unsafe_allow_html=True)
 
@@ -151,7 +151,7 @@ if st.button('Tạo sơ đồ năng lượng'):
         x=filtered_years_moon, 
         y=filtered_extended_moon_phases, 
         mode='lines+markers',
-        name='Năng lượng Pha Trăng',
+        name='Năng lượng pha trăng',
         line=dict(shape='spline', color='#ffdbaa', dash='solid', width=6),
         marker=dict(size=4, color='orange'),
         hoverinfo='x+y'
@@ -162,7 +162,7 @@ if st.button('Tạo sơ đồ năng lượng'):
         x=filtered_rearranged_years, 
         y=filtered_combined_energy, 
         mode='lines+markers',
-        name='Năng Lượng tổng',
+        name='Năng lượng tổng',
         line=dict(shape='spline', color='darkgrey', width=3),
         marker=dict(size=6, color='darkgrey'),
         hoverinfo='x+y'
@@ -236,9 +236,9 @@ if st.button('Tạo sơ đồ năng lượng'):
     # Set titles and labels based on the selected view option
     if view_option == "Mỗi 3 năm":
         fig.update_layout(
-            title='Sơ đồ Năng lượng - Vận trình Cuộc đời',
+            title='Sơ đồ năng lượng - Vận trình cuộc đời',
             xaxis_title='Năm',
-            yaxis_title='Mức Năng Lượng',
+            yaxis_title='Mức năng lượng',
             height=600,
             xaxis=dict(
                 dtick=3,  # Show every 3rd year
@@ -254,9 +254,9 @@ if st.button('Tạo sơ đồ năng lượng'):
         )
     else:
         fig.update_layout(
-            title='Sơ đồ Năng lượng - Vận trình Cuộc đời',
+            title='Sơ đồ nNăng lượng - Vận trình cuộc đời',
             xaxis_title='Năm',
-            yaxis_title='Mức Năng Lượng',
+            yaxis_title='Mức năng lượng',
             height=600,
             xaxis=dict(
                 tickvals=filtered_rearranged_years,  # Only show rearranged years
