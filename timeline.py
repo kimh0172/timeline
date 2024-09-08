@@ -131,7 +131,7 @@ with col2:
     end_year = st.number_input('Năm kết thúc', min_value=min(years_moon), max_value=max(years_moon), value=max(years_moon))
 with col3:
     # Option to switch between the two views
-    view_option = st.selectbox("Chọn view timeline:", ["Mỗi 3 năm", "Năm nổi bật"])
+    view_option = st.selectbox("Chọn view timeline:", ["Từng năm", "Mỗi 3 năm", "Năm nổi bật"])
 
 # Filter the data based on the selected year range
 filtered_years_moon = [year for year in years_moon if start_year <= year <= end_year]
@@ -234,14 +234,32 @@ if st.button('Tạo sơ đồ năng lượng'):
     )
 
     # Set titles and labels based on the selected view option
-    if view_option == "Mỗi 3 năm":
+    if view_option == "Từng năm":
         fig.update_layout(
-            title='Sơ đồ năng lượng - Vận trình cuộc đời',
+            title='Sơ đồ Năng lượng - Vận trình Cuộc đời',
             xaxis_title='Năm',
-            yaxis_title='Mức năng lượng',
+            yaxis_title='Mức Năng Lượng',
             height=600,
             xaxis=dict(
-                dtick=3,  # Show every 3rd year
+                dtick=1,  # Show every year
+                showgrid=True,
+                gridcolor='#F4EEEE'
+            ),
+            yaxis=dict(
+                range=[-16, 16],
+                showgrid=True,
+                gridcolor='#F4EEEE'
+            ),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5)
+        )
+    elif view_option == "Mỗi 3 năm":
+        fig.update_layout(
+            title='Sơ đồ Năng lượng - Vận trình Cuộc đời',
+            xaxis_title='Năm',
+            yaxis_title='Mức Năng Lượng',
+            height=600,
+            xaxis=dict(
+                dtick=3,  # Show every 3 years
                 showgrid=True,
                 gridcolor='#F4EEEE'
             ),
@@ -254,9 +272,9 @@ if st.button('Tạo sơ đồ năng lượng'):
         )
     else:
         fig.update_layout(
-            title='Sơ đồ nNăng lượng - Vận trình cuộc đời',
+            title='Sơ đồ Năng lượng - Vận trình Cuộc đời',
             xaxis_title='Năm',
-            yaxis_title='Mức năng lượng',
+            yaxis_title='Mức Năng Lượng',
             height=600,
             xaxis=dict(
                 tickvals=filtered_rearranged_years,  # Only show rearranged years
