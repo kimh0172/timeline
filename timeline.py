@@ -75,6 +75,7 @@ else:
 
     # Option for user to upload an Excel file
     st.write("Bạn có thể tải lên tệp Excel hoặc nhập thủ công:")
+    st.write("Tham khảo format tại link: https://docs.google.com/spreadsheets/d/1iNvnAH-oCojCng_Uu-VhH0cdlSTyYsqLr51oqMxo6xo/edit?usp=sharing")
     uploaded_file = st.file_uploader("Chọn file Excel để nhập liệu (tùy chọn)", type="xlsx")
     
     if uploaded_file:
