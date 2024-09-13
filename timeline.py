@@ -38,7 +38,9 @@ else:
         <h1 style='font-size:40px; color:green;'>Vận trình năng lượng</h1>
         <p style='font-size:20px; color:green;'>Copyright By Ocdaomayvacay.vn</p>
         """, unsafe_allow_html=True)
+
     
+
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         year_of_birth = st.number_input('Năm sinh', step=1, value=2000)
@@ -70,32 +72,52 @@ else:
     energy_levels = []
     original_labels = []
     truncated_labels = []
+
+    # Option for user to upload an Excel file
+    st.write("Bạn có thể tải lên tệp Excel hoặc nhập thủ công:")
+    uploaded_file = st.file_uploader("Chọn file Excel để nhập liệu (tùy chọn)", type="xlsx")
     
-    # Input fields for dynamic number of data points (based on user's choice)
-    for i in range(1, num_points + 1):
-        st.subheader(f'Mốc sự kiện {i}')
-        col1, col2, col3 = st.columns(3)
+    if uploaded_file:
+        # Read the Excel file into a DataFrame
+        df = pd.read_excel(uploaded_file)
         
-        with col1:
-            year = st.number_input(f'Năm {i}', step=1, value=2000 + i)  # Default to year 2000, 2001, etc.
-        with col2:
-            month = st.selectbox(f'Tháng {i} (có thể bỏ qua)', options=["N/A"] + list(range(1, 13)), index=0)  # Month dropdown (1-12) with "N/A"
-        with col3:
-            energy = st.slider(f'Mức năng lượng {i}', min_value=-8, max_value=8, value=0)
-            
-        label = st.text_input(f'Ý nghĩa {i}', value=f'Ý nghĩa {i}')
-        
-        years.append(year)
-        
-        # If "N/A" is selected for the month, append None or a placeholder
-        if month == "N/A":
-            months.append(None)  # You can use None or any placeholder like 0
+        # Validate the structure of the uploaded data
+        if not all(col in df.columns for col in ["Năm", "Tháng", "Mức Năng Lượng", "Ý Nghĩa"]):
+            st.error("File Excel phải chứa các cột: Năm, Tháng, Mức Năng Lượng, Ý Nghĩa")
         else:
-            months.append(month)
-        
-        energy_levels.append(energy)
-        original_labels.append(label)
-        truncated_labels.append(wrap_text_for_plotly(label, max_characters_per_line=10))
+            years = df['Năm'].tolist()
+            months = df['Tháng'].tolist()
+            energy_levels = df['Mức Năng Lượng'].tolist()
+            original_labels = df['Ý Nghĩa'].tolist()
+            truncated_labels = [wrap_text_for_plotly(label, max_characters_per_line=10) for label in original_labels]
+            st.success("Dữ liệu từ Excel đã được tải lên thành công!")
+    else:
+    
+        # Input fields for dynamic number of data points (based on user's choice)
+        for i in range(1, num_points + 1):
+            st.subheader(f'Mốc sự kiện {i}')
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                year = st.number_input(f'Năm {i}', step=1, value=2000 + i)  # Default to year 2000, 2001, etc.
+            with col2:
+                month = st.selectbox(f'Tháng {i} (có thể bỏ qua)', options=["N/A"] + list(range(1, 13)), index=0)  # Month dropdown (1-12) with "N/A"
+            with col3:
+                energy = st.slider(f'Mức năng lượng {i}', min_value=-8, max_value=8, value=0)
+                
+            label = st.text_input(f'Ý nghĩa {i}', value=f'Ý nghĩa {i}')
+            
+            years.append(year)
+            
+            # If "N/A" is selected for the month, append None or a placeholder
+            if month == "N/A":
+                months.append(None)  # You can use None or any placeholder like 0
+            else:
+                months.append(month)
+            
+            energy_levels.append(energy)
+            original_labels.append(label)
+            truncated_labels.append(wrap_text_for_plotly(label, max_characters_per_line=10))
     
     # Calculate sum of moon phase energy and user energy levels
     combined_energy = []
